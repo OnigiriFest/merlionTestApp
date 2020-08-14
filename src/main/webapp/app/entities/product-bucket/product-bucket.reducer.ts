@@ -28,8 +28,7 @@ const initialState = {
 export type ProductBucketState = Readonly<typeof initialState>;
 
 // Reducer
-let index;
-let product;
+let newState;
 
 export default (state: ProductBucketState = initialState, action): ProductBucketState => {
   switch (action.type) {
@@ -83,8 +82,17 @@ export default (state: ProductBucketState = initialState, action): ProductBucket
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.UPDATE_PRODUCTBUCKETQUANTITY):
+      newState = [...state.entities];
+
+      state.entities.forEach((productBucket, index) => {
+        if (productBucket.id === action.payload.data.id) {
+          newState[index] = action.payload.data;
+        }
+      });
+
       return {
         ...state,
+        entities: [...newState],
         updating: false,
         updateSuccess: true,
         entity: action.payload.data,

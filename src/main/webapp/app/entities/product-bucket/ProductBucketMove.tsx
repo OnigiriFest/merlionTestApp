@@ -4,9 +4,8 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
 
-import { updateEntity as updateProductBucket } from './product-bucket.reducer';
 import { IRootState } from 'app/shared/reducers';
-import { getEntities as getBucketProducts } from './product-bucket.reducer';
+import { getEntities as getBucketProducts, updateProductBucketQuantity } from './product-bucket.reducer';
 
 export interface IProductBucketProps extends StateProps, DispatchProps {}
 
@@ -110,18 +109,20 @@ const ProductBucketMove = (props: IProductBucketProps) => {
         }
         break;
       default:
-        break;
+        return;
     }
 
     // eslint-disable-next-line no-console
     console.log(`${available}, ${inCharge}`);
 
-    props.updateProductBucket({
+    props.updateProductBucketQuantity({
       ...productSelected,
       availableToSellQuantity: available,
       brokenQuantity: broken,
       inChargeQuantity: inCharge,
     });
+
+    setProductSelected(null);
   };
 
   return (
@@ -193,7 +194,7 @@ const mapStateToProps = ({ productBucket }: IRootState) => ({
 
 const mapDispatchToProps = {
   getBucketProducts,
-  updateProductBucket,
+  updateProductBucketQuantity,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

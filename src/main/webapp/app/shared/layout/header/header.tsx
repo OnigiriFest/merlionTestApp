@@ -2,12 +2,14 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
+import { Navbar, NavItem, NavLink as NavLinkStrap, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
+import MenuItem from 'app/shared/layout/menus/menu-item';
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 
@@ -53,6 +55,14 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
+            <NavItem>
+              {props.isAuthenticated ? (
+                <NavLinkStrap tag={Link} to="/product-bucket-move" className="d-flex align-items-center">
+                  <FontAwesomeIcon icon={faEdit} />
+                  <span>Mover Product Bucket</span>
+                </NavLinkStrap>
+              ) : null}
+            </NavItem>
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
