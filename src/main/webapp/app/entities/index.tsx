@@ -6,6 +6,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 import Product from './product';
 import ProductBucket from './product-bucket';
+import ProductBucketMove from './product-bucket/ProductBucketMove';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -15,6 +16,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}product`} component={Product} />
       <ErrorBoundaryRoute path={`${match.url}product-bucket`} component={ProductBucket} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
+      <ErrorBoundaryRoute path={`${match.url}product-bucket-move`} component={ProductBucketMove} />
     </Switch>
   </div>
 );

@@ -11,6 +11,7 @@ export const ACTION_TYPES = {
   FETCH_PRODUCTBUCKET: 'productBucket/FETCH_PRODUCTBUCKET',
   CREATE_PRODUCTBUCKET: 'productBucket/CREATE_PRODUCTBUCKET',
   UPDATE_PRODUCTBUCKET: 'productBucket/UPDATE_PRODUCTBUCKET',
+  UPDATE_PRODUCTBUCKETQUANTITY: 'productBucket/UPDATE_PRODUCTBUCKETQUANTITY',
   DELETE_PRODUCTBUCKET: 'productBucket/DELETE_PRODUCTBUCKET',
   RESET: 'productBucket/RESET',
 };
@@ -27,6 +28,8 @@ const initialState = {
 export type ProductBucketState = Readonly<typeof initialState>;
 
 // Reducer
+let index;
+let product;
 
 export default (state: ProductBucketState = initialState, action): ProductBucketState => {
   switch (action.type) {
@@ -79,6 +82,13 @@ export default (state: ProductBucketState = initialState, action): ProductBucket
         updateSuccess: true,
         entity: action.payload.data,
       };
+    case SUCCESS(ACTION_TYPES.UPDATE_PRODUCTBUCKETQUANTITY):
+      return {
+        ...state,
+        updating: false,
+        updateSuccess: true,
+        entity: action.payload.data,
+      };
     case SUCCESS(ACTION_TYPES.DELETE_PRODUCTBUCKET):
       return {
         ...state,
@@ -124,6 +134,14 @@ export const createEntity: ICrudPutAction<IProductBucket> = entity => async disp
 export const updateEntity: ICrudPutAction<IProductBucket> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_PRODUCTBUCKET,
+    payload: axios.put(apiUrl, cleanEntity(entity)),
+  });
+  return result;
+};
+
+export const updateProductBucketQuantity: ICrudPutAction<IProductBucket> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.UPDATE_PRODUCTBUCKETQUANTITY,
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
   return result;
