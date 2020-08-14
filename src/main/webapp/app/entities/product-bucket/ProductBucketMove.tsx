@@ -59,6 +59,8 @@ const ProductBucketMove = (props: IProductBucketProps) => {
         setTo('Disponible');
         break;
       default:
+        options = ['Vendido', 'Roto'];
+        setTo('Vendido');
         break;
     }
 
