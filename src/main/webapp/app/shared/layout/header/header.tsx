@@ -54,14 +54,16 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
-            <NavItem>
-              <NavLink tag={Link} to="/product-state" className="d-flex align-items-center">
-                <FontAwesomeIcon icon={faTruck} />
-                <span>
-                  <div>Seguimiento de Envios</div>
-                </span>
-              </NavLink>
-            </NavItem>
+            {props.isAuthenticated && (
+              <NavItem>
+                <NavLink tag={Link} to="/product-state" className="d-flex align-items-center">
+                  <FontAwesomeIcon icon={faTruck} />
+                  <span>
+                    <div>Seguimiento de Envios</div>
+                  </span>
+                </NavLink>
+              </NavItem>
+            )}
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
