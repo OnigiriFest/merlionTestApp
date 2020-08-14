@@ -2,7 +2,8 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
+import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse, NavItem, NavLink } from 'reactstrap';
+import { faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NavLink as Link } from 'react-router-dom';
@@ -53,6 +54,14 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
+            <NavItem>
+              <NavLink tag={Link} to="/product-state" className="d-flex align-items-center">
+                <FontAwesomeIcon icon={faTruck} />
+                <span>
+                  <div>Seguimiento de Envios</div>
+                </span>
+              </NavLink>
+            </NavItem>
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />

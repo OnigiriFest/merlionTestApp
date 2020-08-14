@@ -5,12 +5,14 @@ import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { ISales, defaultValue } from 'app/shared/model/sales.model';
+import { indexOf } from 'lodash';
 
 export const ACTION_TYPES = {
   FETCH_SALES_LIST: 'sales/FETCH_SALES_LIST',
   FETCH_SALES: 'sales/FETCH_SALES',
   CREATE_SALES: 'sales/CREATE_SALES',
   UPDATE_SALES: 'sales/UPDATE_SALES',
+  UPDATE_SALES_STATE: 'sales/UPDATE_SALES_STATE',
   DELETE_SALES: 'sales/DELETE_SALES',
   RESET: 'sales/RESET',
 };
@@ -27,6 +29,8 @@ const initialState = {
 export type SalesState = Readonly<typeof initialState>;
 
 // Reducer
+
+let newState = [];
 
 export default (state: SalesState = initialState, action): SalesState => {
   switch (action.type) {
@@ -79,6 +83,21 @@ export default (state: SalesState = initialState, action): SalesState => {
         updateSuccess: true,
         entity: action.payload.data,
       };
+    case SUCCESS(ACTION_TYPES.UPDATE_SALES_STATE):
+      newState = [...state.entities];
+
+      state.entities.forEach((sale, index) => {
+        if (sale.id === action.payload.data.id) {
+          newState[index] = action.payload.data;
+        }
+      });
+
+      return {
+        ...state,
+        entities: [...newState],
+        updating: false,
+        updateSuccess: true,
+      };
     case SUCCESS(ACTION_TYPES.DELETE_SALES):
       return {
         ...state,
@@ -126,6 +145,16 @@ export const updateEntity: ICrudPutAction<ISales> = entity => async dispatch => 
     type: ACTION_TYPES.UPDATE_SALES,
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
+
+  return result;
+};
+
+export const updateEntityState: ICrudPutAction<ISales> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.UPDATE_SALES_STATE,
+    payload: axios.put(apiUrl, cleanEntity(entity)),
+  });
+
   return result;
 };
 

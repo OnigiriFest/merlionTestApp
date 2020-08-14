@@ -7,6 +7,7 @@ import Product from './product';
 import ProductDetail from './product-detail';
 import ProductUpdate from './product-update';
 import ProductDeleteDialog from './product-delete-dialog';
+import ProductState from './product-state';
 
 const Routes = ({ match }) => (
   <>
